@@ -47,4 +47,16 @@ Review.create!(
   restaurant_id: 1
 )
 
+# db/seeds.rb
+
+Pizza.create(name: "Margherita", ingredients: "Tomato sauce, mozzarella cheese, basil",restaurant_id:1)
+Pizza.create(name: "Pepperoni", ingredients: "Tomato sauce, mozzarella cheese, pepperoni", restaurant_id: 1)
+Pizza.create(name: "Hawaiian", ingredients: "Tomato sauce, mozzarella cheese, ham, pineapple", restaurant_id: 2)
+# and so on...
+
+# create some orders
+Order.create(pizza_id: 1, user_id: 1, restaurant_id: 1, size: "Large", toppings: "Mushrooms, onions")
+Order.create(pizza_id: 2, user_id: 2, restaurant_id: 2, size: "Medium", toppings: "Peppers, olives")
+Order.create(pizza_id: 1, user_id: 1, restaurant_id: 2, size: "Small", toppings: "Pepperoni")
+
 puts 'finished seeding'
