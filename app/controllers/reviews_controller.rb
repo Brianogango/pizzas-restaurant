@@ -1,14 +1,12 @@
 class ReviewsController < ApplicationController
     def index
         reviews = Review.all
-        render json: reviews
-        
-})
+        render json: reviews.select(:rating, :comment, :id)
     end
     def show
         review =Review.find(params[:id])
         if review
-        render json: reviews, status: :ok
+        render json: review, status: :ok
         else
             render json:{error:"Invalid review"},status: :not_found
         end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_18_082031) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_18_103150) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,8 +21,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_18_082031) do
     t.text "toppings"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "pizza_id", null: false
+    t.index ["pizza_id"], name: "index_orders_on_pizza_id"
     t.index ["restaurant_id"], name: "index_orders_on_restaurant_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "pizzas", force: :cascade do |t|
+    t.string "name"
+    t.string "ingredients"
+    t.bigint "restaurant_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restaurant_id"], name: "index_pizzas_on_restaurant_id"
   end
 
   create_table "restaurants", force: :cascade do |t|
@@ -40,6 +51,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_18_082031) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "pizza_id", null: false
+    t.index ["pizza_id"], name: "index_reviews_on_pizza_id"
     t.index ["restaurant_id"], name: "index_reviews_on_restaurant_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
@@ -49,10 +62,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_18_082031) do
     t.string "username"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "address"
+    t.integer "phone"
   end
 
+  add_foreign_key "orders", "pizzas"
   add_foreign_key "orders", "restaurants"
   add_foreign_key "orders", "users"
+  add_foreign_key "pizzas", "restaurants"
+  add_foreign_key "reviews", "pizzas"
   add_foreign_key "reviews", "restaurants"
   add_foreign_key "reviews", "users"
 end

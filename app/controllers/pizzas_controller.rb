@@ -27,7 +27,7 @@ class PizzasController < ApplicationController
     def destroy
         pizza = find_by
         pizza.destroy
-        head: no_content
+        head :no_content
     end
 
     private

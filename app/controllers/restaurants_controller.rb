@@ -1,18 +1,21 @@
 class RestaurantsController < ApplicationController
-   def index
+  def index
   restaurants = Restaurant.all.includes(:reviews, :pizzas)
-  render json: restaurants.as_json(include: {reviews: {only: [:rating, :comment]},
-    pizzas: {only: [:name, :ingredients.as_json]}})
+  render json: restaurants.as_json(include: {
+    reviews: { only: [:rating, :comment] },
+    pizzas: { only: [:name, :ingredients], include: { orders: { only: [:size, :toppings], include: { user: { only: [:username, :address] } } } } }
+  })
 end
 
+
+
     def show
-        restaurant = Restaurant.find(params[:id])
-        if restaurant.valid?
-        render json: restaurant, status: :ok
-        else
-        render json: {error: 'not found'}, status: :not_found
-        end
-    end
+  restaurant = Restaurant.includes(pizzas: :orders).find(params[:id])
+  render json: restaurant.as_json(include: {
+    pizzas: { only: [:id, :name, :ingredients], include: { orders: { only: [:id, :size, :toppings], include: { user: { only: [:username, :address] } } } } }
+  })
+end
+
     def create
         restaurant = Restaurant.create(restaurant_params)
         if
