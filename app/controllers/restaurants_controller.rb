@@ -1,7 +1,8 @@
 class RestaurantsController < ApplicationController
    def index
-  restaurants = Restaurant.all.includes(:reviews)
-  render json: restaurants.as_json(include: {reviews: {only: [:rating, :comment]}})
+  restaurants = Restaurant.all.includes(:reviews, :pizzas)
+  render json: restaurants.as_json(include: {reviews: {only: [:rating, :comment]},
+    pizzas: {only: [:name, :ingredients.as_json]}})
 end
 
     def show
