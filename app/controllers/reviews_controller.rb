@@ -1,9 +1,8 @@
 class ReviewsController < ApplicationController
     def index
-        reviews = Review.all.includes(:user, :restaurant)
-        render json: reviews.as_json(include: { 
-  user: {only: [:email, :username]},
-  restaurant: {only: [:name, :address, :cuisine]}
+        reviews = Review.all
+        render json: reviews
+        
 })
     end
     def show
@@ -44,6 +43,6 @@ class ReviewsController < ApplicationController
 
     private
     def reviews_params
-        params.permit(:rating, :comment, :restaurant_id, :user_id)
+        params.permit(:rating, :comment, :restaurant_id, :user_id, :pizza_id)
     end
 end
