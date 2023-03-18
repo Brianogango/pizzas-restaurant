@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 # get '/users/:id', to: 'users#show'
 # post '/users', to: 'users#create'
 # delete '/users/:id', to: 'users#destroy'
+resources :users
 resources :restaurants
 resources :reviews
 resources :orders
